@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ConnectPayUtilSample"
 include ':app'
+include ':OcrEngine'
+include ':ocrview'
