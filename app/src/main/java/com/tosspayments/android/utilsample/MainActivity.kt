@@ -5,7 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.tosspayments.android.util.utils.ConnectPayUtil
+import com.kangdroid.android.ocr.common.ConnectPayOcrManager
+import com.tosspayments.android.auth.utils.ConnectPayAuthManager
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val activity = this@MainActivity
 
         findViewById<Button>(R.id.verify_biometric_auth).setOnClickListener {
-            ConnectPayUtil.requestBioMetricAuth(activity,
+            ConnectPayAuthManager.requestBioMetricAuth(activity,
                 { password ->
                     startActivity(ResultActivity.getIntent(activity, successData = password))
                 },
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 ResultActivity.getIntent(
                     activity,
-                    successData = ConnectPayUtil.getBiometricAuthMethods(activity).toString()
+                    successData = ConnectPayAuthManager.getBiometricAuthMethods(activity).toString()
                 )
             )
         }
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.start_card_scan).setOnClickListener {
-            ConnectPayUtil.requestCardScan(
+            ConnectPayOcrManager.requestCardScan(
                 activity,
                 "LICENSE",
                 REQUEST_CODE_CARD_SCAN
@@ -78,20 +79,22 @@ class MainActivity : AppCompatActivity() {
                 REQUEST_CODE_PASSWORD -> {
                     val password = data?.getStringExtra("password")
 
-                    ConnectPayUtil.registerBiometricAuth(
+                    ConnectPayAuthManager.registerBiometricAuth(
                         activity, password
                     ) { isSuccess, message ->
-                        if (isSuccess) {
-                            ResultActivity.getIntent(
-                                activity,
-                                successData = password
-                            )
-                        } else {
-                            ResultActivity.getIntent(
-                                activity,
-                                errorMessage = message
-                            )
-                        }
+                        startActivity(
+                            if (isSuccess) {
+                                ResultActivity.getIntent(
+                                    activity,
+                                    successData = password
+                                )
+                            } else {
+                                ResultActivity.getIntent(
+                                    activity,
+                                    errorMessage = message
+                                )
+                            }
+                        )
                     }
                 }
             }

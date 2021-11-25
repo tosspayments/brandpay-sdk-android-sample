@@ -14,7 +14,7 @@
             android:exported="true"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/ConnectPayUtilTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,14 +27,14 @@
             android:name=".ResultActivity"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/ConnectPayUtilTheme"
+            android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".InputPasswordActivity"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/ConnectPayUtilTheme"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity" />
     </application>

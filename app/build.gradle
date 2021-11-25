@@ -47,13 +47,15 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-
-    // ConnectPay Util
+    
     implementation fileTree(dir: 'libs', include: '*.aar')
-    implementation project(':OcrEngine')
 
+    // ConnectPay Auth
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation "androidx.biometric:biometric:1.2.0-alpha04"
     implementation "androidx.security:security-crypto:1.1.0-alpha03"
+
+    // ConnectPay Ocr
+    implementation project(':OcrEngine')
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 }
