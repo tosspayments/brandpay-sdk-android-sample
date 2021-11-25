@@ -37,6 +37,13 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name=".WebActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>
