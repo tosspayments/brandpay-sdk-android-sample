@@ -26,17 +26,7 @@ class WebActivity : AppCompatActivity() {
         }
 
     private val connectPayOcrInterface =
-        ConnectPayOcrJavascriptInterface(this@WebActivity).apply {
-            callback = object : ConnectPayOcrJavascriptInterface.Callback {
-                override fun onSuccess(data: String) {
-                    webView.loadUrl(data)
-                }
-
-                override fun onError(message: String) {
-                    webView.loadUrl(message)
-                }
-            }
-        }
+        ConnectPayOcrJavascriptInterface(this@WebActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +44,8 @@ class WebActivity : AppCompatActivity() {
                 domStorageEnabled = true
             }
 
-            addJavascriptInterface(connectPayAuthInterface, ConnectPayAuthJavascriptInterface.NAME)
-            addJavascriptInterface(connectPayOcrInterface, ConnectPayOcrJavascriptInterface.NAME)
+            addJavascriptInterface(connectPayAuthInterface, "ConnectPayAuth")
+            addJavascriptInterface(connectPayOcrInterface, "ConnectPayUtil")
         }
 
         webView.loadUrl(url)
@@ -68,5 +58,23 @@ class WebActivity : AppCompatActivity() {
 
     private fun handleIntent(intent: Intent?) {
         url = intent?.data?.getQueryParameter("url").orEmpty()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ConnectPayOcrJavascriptInterface.REQUEST_CODE_OCR_SCAN) {
+            if (resultCode == RESULT_OK) {
+                data?.getStringExtra(ConnectPayOcrJavascriptInterface.RESULT_DATA_OCR_SCAN_SUCCESS_RESULT)
+                    ?.let {
+                        webView.loadUrl(it)
+                    }
+            } else {
+                data?.getStringExtra(ConnectPayOcrJavascriptInterface.RESULT_DATA_OCR_SCAN_ERROR_RESULT)
+                    ?.let {
+                        webView.loadUrl(it)
+                    }
+            }
+        }
     }
 }
