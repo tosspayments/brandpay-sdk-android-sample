@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
-import com.kangdroid.android.ocr.interfaces.ConnectPayOcrJavascriptInterface
 import com.tosspayments.android.auth.interfaces.ConnectPayAuthJavascriptInterface
+import com.tosspayments.android.ocr.interfaces.ConnectPayOcrJavascriptInterface
 
 class WebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
@@ -44,8 +44,8 @@ class WebActivity : AppCompatActivity() {
                 domStorageEnabled = true
             }
 
-            addJavascriptInterface(connectPayAuthInterface, "ConnectPayAuth")
-            addJavascriptInterface(connectPayOcrInterface, "ConnectPayUtil")
+            addJavascriptInterface(connectPayAuthInterface, ConnectPayAuthJavascriptInterface.NAME)
+            addJavascriptInterface(connectPayOcrInterface, ConnectPayOcrJavascriptInterface.NAME)
         }
 
         webView.loadUrl(url)
@@ -63,14 +63,14 @@ class WebActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ConnectPayOcrJavascriptInterface.REQUEST_CODE_OCR_SCAN) {
+        if (requestCode == ConnectPayOcrJavascriptInterface.REQUEST_CODE_CARD_SCAN) {
             if (resultCode == RESULT_OK) {
-                data?.getStringExtra(ConnectPayOcrJavascriptInterface.RESULT_DATA_OCR_SCAN_SUCCESS_RESULT)
+                data?.getStringExtra(ConnectPayOcrJavascriptInterface.EXTRA_CARD_SCAN_SUCCESS_RESULT)
                     ?.let {
                         webView.loadUrl(it)
                     }
             } else {
-                data?.getStringExtra(ConnectPayOcrJavascriptInterface.RESULT_DATA_OCR_SCAN_ERROR_RESULT)
+                data?.getStringExtra(ConnectPayOcrJavascriptInterface.EXTRA_CARD_SCAN_ERROR_RESULT)
                     ?.let {
                         webView.loadUrl(it)
                     }

@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.kangdroid.android.ocr.common.ConnectPayOcrManager
 import com.tosspayments.android.auth.utils.ConnectPayAuthManager
+import com.tosspayments.android.ocr.common.ConnectPayOcrManager
 
 class MainActivity : AppCompatActivity() {
     companion object {
