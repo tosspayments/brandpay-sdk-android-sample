@@ -26,7 +26,17 @@ class WebActivity : AppCompatActivity() {
         }
 
     private val connectPayOcrInterface =
-        ConnectPayOcrJavascriptInterface(this@WebActivity)
+        ConnectPayOcrJavascriptInterface(this@WebActivity).apply {
+            callback = object : ConnectPayOcrJavascriptInterface.Callback {
+                override fun onSuccess(data: String) {
+                    webView.loadUrl(data)
+                }
+
+                override fun onError(message: String) {
+                    webView.loadUrl(message)
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,18 +73,6 @@ class WebActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ConnectPayOcrJavascriptInterface.REQUEST_CODE_CARD_SCAN) {
-            if (resultCode == RESULT_OK) {
-                data?.getStringExtra(ConnectPayOcrJavascriptInterface.EXTRA_CARD_SCAN_SUCCESS_RESULT)
-                    ?.let {
-                        webView.loadUrl(it)
-                    }
-            } else {
-                data?.getStringExtra(ConnectPayOcrJavascriptInterface.EXTRA_CARD_SCAN_ERROR_RESULT)
-                    ?.let {
-                        webView.loadUrl(it)
-                    }
-            }
-        }
+        connectPayOcrInterface.handleActivityResult(webView, requestCode, resultCode, data)
     }
 }
