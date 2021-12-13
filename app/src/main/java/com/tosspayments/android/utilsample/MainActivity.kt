@@ -57,6 +57,10 @@ class MainActivity : AppCompatActivity() {
                 REQUEST_CODE_CARD_SCAN
             )
         }
+
+        findViewById<Button>(R.id.web_interface).setOnClickListener {
+            startActivity(Intent(this@MainActivity, WebActivity::class.java))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

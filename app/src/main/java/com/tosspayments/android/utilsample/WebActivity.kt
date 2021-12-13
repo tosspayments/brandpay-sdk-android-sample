@@ -12,31 +12,8 @@ class WebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private var url: String = ""
 
-    private val connectPayAuthInterface =
-        ConnectPayAuthJavascriptInterface(this@WebActivity).apply {
-            callback = object : ConnectPayAuthJavascriptInterface.Callback {
-                override fun onSuccess(data: String) {
-                    webView.loadUrl(data)
-                }
-
-                override fun onError(message: String) {
-                    webView.loadUrl(message)
-                }
-            }
-        }
-
-    private val connectPayOcrInterface =
-        ConnectPayOcrJavascriptInterface(this@WebActivity).apply {
-            callback = object : ConnectPayOcrJavascriptInterface.Callback {
-                override fun onSuccess(data: String) {
-                    webView.loadUrl(data)
-                }
-
-                override fun onError(message: String) {
-                    webView.loadUrl(message)
-                }
-            }
-        }
+    private val connectPayAuthInterface = ConnectPayAuthJavascriptInterface(this)
+    private val connectPayOcrInterface = ConnectPayOcrJavascriptInterface(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +30,12 @@ class WebActivity : AppCompatActivity() {
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
-
-            addJavascriptInterface(connectPayAuthInterface, ConnectPayAuthJavascriptInterface.NAME)
-            addJavascriptInterface(connectPayOcrInterface, ConnectPayOcrJavascriptInterface.NAME)
         }
 
-        webView.loadUrl(url)
+        connectPayAuthInterface.bind(webView)
+        connectPayOcrInterface.bind(webView)
+
+        webView.loadUrl(url.takeIf { it.isNotBlank() } ?: "https://demo-dev.tosspayments.com/connectpay/test/webview")
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -73,6 +50,6 @@ class WebActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        connectPayOcrInterface.handleActivityResult(webView, requestCode, resultCode, data)
+        connectPayOcrInterface.handleActivityResult(requestCode, resultCode, data)
     }
 }
