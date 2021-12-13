@@ -5,15 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
-import com.tosspayments.android.auth.interfaces.ConnectPayAuthJavascriptInterface
-import com.tosspayments.android.ocr.interfaces.ConnectPayOcrJavascriptInterface
+import com.tosspayments.android.auth.interfaces.ConnectPayAuthWebManager
+import com.tosspayments.android.ocr.interfaces.ConnectPayOcrWebManager
 
 class WebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private var url: String = ""
 
-    private val connectPayAuthInterface = ConnectPayAuthJavascriptInterface(this)
-    private val connectPayOcrInterface = ConnectPayOcrJavascriptInterface(this)
+    private val connectPayAuthWebManager = ConnectPayAuthWebManager(this)
+    private val connectPayOcrWebManager = ConnectPayOcrWebManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +32,8 @@ class WebActivity : AppCompatActivity() {
             }
         }
 
-        connectPayAuthInterface.bind(webView)
-        connectPayOcrInterface.bind(webView)
+        connectPayAuthWebManager.bind(webView)
+        connectPayOcrWebManager.bind(webView)
 
         webView.loadUrl(url.takeIf { it.isNotBlank() } ?: "https://demo-dev.tosspayments.com/connectpay/test/webview")
     }
@@ -50,6 +50,6 @@ class WebActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        connectPayOcrInterface.handleActivityResult(requestCode, resultCode, data)
+        connectPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
     }
 }
