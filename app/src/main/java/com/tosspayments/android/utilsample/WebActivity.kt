@@ -12,8 +12,21 @@ class WebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private var url: String = ""
 
-    private val connectPayAuthWebManager = ConnectPayAuthWebManager(this)
-    private val connectPayOcrWebManager = ConnectPayOcrWebManager(this)
+    private val connectPayAuthWebManager = ConnectPayAuthWebManager(this).apply {
+        callback = object : ConnectPayAuthWebManager.Callback {
+            override fun onPostScript(script: String) {
+                webView.loadUrl(script)
+            }
+        }
+    }
+
+    private val connectPayOcrWebManager = ConnectPayOcrWebManager(this).apply {
+        callback = object : ConnectPayOcrWebManager.Callback {
+            override fun onPostScript(script: String) {
+                webView.loadUrl(script)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +43,17 @@ class WebActivity : AppCompatActivity() {
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
-        }
 
-        connectPayAuthWebManager.bind(webView)
-        connectPayOcrWebManager.bind(webView)
+            addJavascriptInterface(
+                connectPayOcrWebManager.javaScriptInterface,
+                ConnectPayOcrWebManager.JAVASCRIPT_INTERFACE_NAME
+            )
+
+            addJavascriptInterface(
+                connectPayAuthWebManager.javaScriptInterface,
+                ConnectPayAuthWebManager.JAVASCRIPT_INTERFACE_NAME
+            )
+        }
 
         webView.loadUrl(url.takeIf { it.isNotBlank() } ?: "https://demo-dev.tosspayments.com/connectpay/test/webview")
     }
