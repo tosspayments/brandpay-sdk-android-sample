@@ -75,10 +75,9 @@ class WebActivity : AppCompatActivity() {
         /**
          * 직접 Handling할 경우
         if (requestCode == ConnectPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
-            val successScript =
-            data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_SUCCESS_RESULT)
-            val errorScript =
-            data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_ERROR_RESULT)
+            data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
+                webView.loadUrl(resultScript)
+            }
         }
          **/
     }

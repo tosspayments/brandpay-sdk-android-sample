@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                 { password ->
                     startActivity(ResultActivity.getIntent(activity, successData = password))
                 },
-                { message ->
+                { _, message ->
                     startActivity(ResultActivity.getIntent(activity, errorMessage = message))
                 })
         }
@@ -84,22 +84,20 @@ class MainActivity : AppCompatActivity() {
                     val password = data?.getStringExtra("password")
 
                     ConnectPayAuthManager.registerBiometricAuth(
-                        activity, password
-                    ) { isSuccess, message ->
-                        startActivity(
-                            if (isSuccess) {
-                                ResultActivity.getIntent(
-                                    activity,
-                                    successData = password
-                                )
-                            } else {
-                                ResultActivity.getIntent(
-                                    activity,
-                                    errorMessage = message
-                                )
-                            }
-                        )
-                    }
+                        activity,
+                        password,
+                        {
+                            ResultActivity.getIntent(
+                                activity,
+                                successData = password
+                            )
+                        }, { _, message ->
+                            ResultActivity.getIntent(
+                                activity,
+                                errorMessage = message
+                            )
+                        }
+                    )
                 }
             }
         }
