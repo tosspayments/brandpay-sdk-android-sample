@@ -87,14 +87,14 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 - 호출 Message
     
-    ```json
-        {
-          name: '**isOCRAvailable**',
-          params: {
-            onSuccess: 성공시 호출할 메서드명,
-            password : 등록할 비밀번호
-          }
-        }
+    ```
+	{
+	  name: '**isOCRAvailable**',
+	  params: {
+	    onSuccess: 성공시 호출할 메서드명,
+	    password : 등록할 비밀번호
+	  }
+	}
     ```
     
 - Return
@@ -106,13 +106,13 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 - 호출 Message
     
-    ```json
+    ```
 	{
-          name: '**ocrScan**',
-          params: {
-           onSuccess: 성공시 호출할 메서드명,
-           onError: 에러 발생시 호출할 메서드명
-           license : 포지큐브에서 발급받은 OCR License
+	  name: '**ocrScan**',
+	  params: {
+	    onSuccess: 성공시 호출할 메서드명,
+	    onError: 에러 발생시 호출할 메서드명,
+	    license : 포지큐브에서 발급받은 OCR License
 	  }
 	}
     ```
@@ -120,14 +120,14 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 - Return
     - onSuccess : Json String
     
-    ```json
-        {
-          cardNo1 : 카드번호 첫번 째 4자리,
-          cardNo2 : 카드번호 두번 째 4자리,
-          cardNo3 : 카드번호 세번 째 4자리,
-          cardNo4 : 앞 12자리를 제외한 카드번호,
-          expiryYearMonth : 카드 유효기간 (YYMM)
-        }
+    ```
+	{
+	  cardNo1 : 카드번호 첫번 째 4자리,
+	  cardNo2 : 카드번호 두번 째 4자리,
+	  cardNo3 : 카드번호 세번 째 4자리,
+	  cardNo4 : 앞 12자리를 제외한 카드번호,
+	  expiryYearMonth : 카드 유효기간 (YYMM)
+	}
     ```
     
     - onError : Error 메세지
@@ -200,7 +200,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 - 호출 Message
     
-    ```json
+    ```
     {
       name: '**getBiometricAuthMethods**',
       params: {
@@ -222,7 +222,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 - 호출 Message
     
-    ```json
+    ```
     {
       name: '**hasBiometricAuth**',
       params: {
@@ -240,7 +240,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 - 호출 Message
     
-    ```json
+    ```
     {
       name: '**registerBiometricAuth**',
       params: {
@@ -261,7 +261,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 - 호출 Message
     
-    ```json
+    ```
     {
       name: '**verifyBiometricAuth**',
       params: {
