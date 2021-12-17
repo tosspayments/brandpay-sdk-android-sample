@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/on_success_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Success"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <ScrollView
+        android:id="@+id/on_success_result_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/on_error_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/on_success_title"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/on_success_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/on_error_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Error"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/on_error_result_scroll"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/on_success_result_scroll"
+        tools:ignore="HardcodedText" />
+
+    <ScrollView
+        android:id="@+id/on_error_result_scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/on_error_title"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/on_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top" />
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
