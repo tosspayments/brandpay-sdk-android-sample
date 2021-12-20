@@ -126,7 +126,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 	  cardNo2 : 카드번호 두번 째 4자리,
 	  cardNo3 : 카드번호 세번 째 4자리,
 	  cardNo4 : 앞 12자리를 제외한 카드번호,
-	  expiryYearMonth : 카드 유효기간 (YYMM)
+	  expiryDate : 카드 유효기간 (MMYY)
 	}
     ```
     
