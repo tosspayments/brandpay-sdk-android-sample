@@ -89,7 +89,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     
     ```
 	{
-	  name: '**isOCRAvailable**',
+	  name: 'isOCRAvailable',
 	  params: {
 	    onSuccess: 성공시 호출할 메서드명,
 	    password : 등록할 비밀번호
@@ -108,7 +108,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     
     ```
 	{
-	  name: '**ocrScan**',
+	  name: 'ocrScan',
 	  params: {
 	    onSuccess: 성공시 호출할 메서드명,
 	    onError: 에러 발생시 호출할 메서드명,
@@ -202,7 +202,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     
     ```
     {
-      name: '**getBiometricAuthMethods**',
+      name: 'getBiometricAuthMethods',
       params: {
         onSuccess: 성공시 호출할 메서드명,
         onError: 에러 발생시 호출할 메서드명
@@ -224,7 +224,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     
     ```
     {
-      name: '**hasBiometricAuth**',
+      name: 'hasBiometricAuth',
       params: {
         onSuccess: 성공시 호출할 메서드명
       }
@@ -242,7 +242,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     
     ```
     {
-      name: '**registerBiometricAuth**',
+      name: 'registerBiometricAuth',
       params: {
         onSuccess: 성공시 호출할 메서드명,
         onError: 에러 발생시 호출할 메서드명,
@@ -263,7 +263,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     
     ```
     {
-      name: '**verifyBiometricAuth**',
+      name: 'verifyBiometricAuth',
       params: {
         onSuccess: 성공시 호출할 메서드명,
         onError: 에러 발생시 호출할 메서드명
