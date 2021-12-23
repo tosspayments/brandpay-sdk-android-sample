@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
+import android.webkit.WebView.setWebContentsDebuggingEnabled
 import androidx.appcompat.app.AppCompatActivity
 import com.tosspayments.android.auth.interfaces.ConnectPayAuthWebManager
 import com.tosspayments.android.ocr.interfaces.ConnectPayOcrWebManager
@@ -44,6 +45,8 @@ class WebActivity : AppCompatActivity() {
                 domStorageEnabled = true
             }
 
+            setWebContentsDebuggingEnabled(true)
+
             addJavascriptInterface(
                 connectPayOcrWebManager.javaScriptInterface,
                 ConnectPayOcrWebManager.JAVASCRIPT_INTERFACE_NAME
@@ -75,9 +78,9 @@ class WebActivity : AppCompatActivity() {
         /**
          * 직접 Handling할 경우
         if (requestCode == ConnectPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
-            data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
-                webView.loadUrl(resultScript)
-            }
+        data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
+        webView.loadUrl(resultScript)
+        }
         }
          **/
     }
