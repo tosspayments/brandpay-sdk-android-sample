@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.verify_biometric_auth).setOnClickListener {
             ConnectPayAuthManager.requestBioMetricAuth(activity,
+                "MODULUSMODULUSSE",
+                "EXPONENTEXPONENT",
                 { password ->
                     startActivity(ResultActivity.getIntent(activity, successData = password))
                 },
