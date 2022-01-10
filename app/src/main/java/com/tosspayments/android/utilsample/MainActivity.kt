@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.start_card_scan).setOnClickListener {
             ConnectPayOcrManager.requestCardScan(
                 activity,
-                "LICENSE",
+                "",
                 REQUEST_CODE_CARD_SCAN
             )
         }
