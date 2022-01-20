@@ -11,7 +11,7 @@
         include ':ocrview'
         ```
         
-- asserts폴더에 OCR 라이선스 파일(Fincubelicense_AOS.flk) 추가
+- asserts폴더에 OCR 라이선스 파일(fincube_license.flk) 추가
 
 - build.config(:app)
     
