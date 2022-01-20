@@ -1,8 +1,8 @@
 ## 커넥트페이 Android 인증 SDK 사용가이드
-#### ver220107
+#### ver220120
 ### 라이브러리 추가
 
-- libs/ocr-0.0.8.aar 추가
+- libs/ocr-0.0.9.aar 추가
 - OCR 관련 라이브러리 [OcrEngine, ocrview] 추가
     - settings.gradle
         
@@ -134,10 +134,10 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     - onError : Error 메세지
 
 ## 커넥트페이 Android 인증 SDK 사용가이드
-#### ver220107
+#### ver220120
 ### 라이브러리 추가
 
-- libs/auth-0.0.8.aar 추가
+- libs/auth-0.0.9.aar 추가
 - build.config(:app)
     
     ```groovy
