@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 ResultActivity.getIntent(
                     activity,
-                    successData = ConnectPayAuthManager.getBiometricAuthMethods(activity).toString()
+                    successData = ConnectPayAuthManager.getBiometricAuthMethods(activity)
                 )
             )
         }
