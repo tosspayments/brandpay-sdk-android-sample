@@ -2,7 +2,7 @@
 #### ver220126
 ### 라이브러리 추가
 
-- libs/ocr-0.1.0.aar 추가
+- libs/ocr-0.1.2.aar 추가
 - OCR 관련 라이브러리 [OcrEngine, ocrview] 추가
     - settings.gradle
         
@@ -137,7 +137,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 #### ver220126
 ### 라이브러리 추가
 
-- libs/auth-0.1.0.aar 추가
+- libs/auth-0.1.2.aar 추가
 - build.config(:app)
     
     ```groovy
