@@ -1,6 +1,7 @@
 package com.tosspayments.android.utilsample
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
@@ -26,6 +27,15 @@ class WebActivity : AppCompatActivity() {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
+        }
+    }
+
+    companion object {
+        private const val EXTRA_WEB_URL = "url"
+
+        fun getIntent(context: Context, webUrl: String): Intent {
+            return Intent(context, WebActivity::class.java)
+                .putExtra(EXTRA_WEB_URL, webUrl)
         }
     }
 
@@ -67,7 +77,7 @@ class WebActivity : AppCompatActivity() {
     }
 
     private fun handleIntent(intent: Intent?) {
-        url = intent?.data?.getQueryParameter("url").orEmpty()
+        url = intent?.getStringExtra(EXTRA_WEB_URL).orEmpty()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

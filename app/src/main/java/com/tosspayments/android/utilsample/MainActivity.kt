@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.web_interface).setOnClickListener {
-            startActivity(Intent(this@MainActivity, WebActivity::class.java))
+            startActivity(WebActivity.getIntent(this@MainActivity, inputWebUrl.text.toString()))
         }
     }
 
