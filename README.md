@@ -23,6 +23,9 @@
     
         // 2.2.0 이상 권장
         implementation "androidx.lifecycle:lifecycle-runtime-ktx:{version}"
+	
+        implementation "androidx.appcompat:appcompat:{version}"
+        implementation "androidx.core:core-ktx:{version}"
     }
     ```
     
@@ -152,7 +155,11 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 	
         // 1.1.0 이상 권장
         implementation "androidx.biometric:biometric:{version}"
+	
         implementation "androidx.security:security-crypto:1.1.0-alpha03"
+	
+        implementation "androidx.appcompat:appcompat:{version}"
+        implementation "androidx.core:core-ktx:{version}"
     }
     ```
     
