@@ -21,8 +21,8 @@
     
         implementation project(':OcrEngine')
     
-    		// 2.2.0 이상 권장
-    		implementation "androidx.lifecycle:lifecycle-runtime-ktx:{version}"
+	// 2.2.0 이상 권장
+	implementation "androidx.lifecycle:lifecycle-runtime-ktx:{version}"
     }
     ```
     
@@ -143,10 +143,13 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
     ```groovy
     dependencies {
         implementation fileTree(dir: 'libs', include: '*.aar')
+	
+    	// 2.2.0 이상 권장
+	implementation "androidx.lifecycle:lifecycle-runtime-ktx:{version}"
     
-    		// 2.6.0 이상 권장
+	// 2.6.0 이상 권장
         implementation 'com.google.code.gson:gson:{version}'
-    		// 1.1.0 이상 권장
+	// 1.1.0 이상 권장
         implementation "androidx.biometric:biometric:{version}"
         implementation "androidx.security:security-crypto:1.1.0-alpha03"
     }
