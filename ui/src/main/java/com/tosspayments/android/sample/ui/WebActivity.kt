@@ -7,23 +7,25 @@ import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebView.setWebContentsDebuggingEnabled
 import androidx.appcompat.app.AppCompatActivity
-import com.tosspayments.android.auth.interfaces.ConnectPayAuthWebManager
-import com.tosspayments.android.ocr.interfaces.ConnectPayOcrWebManager
+import com.tosspayments.android.auth.interfaces.BrandPayAuthWebManager
+import com.tosspayments.android.ocr.interfaces.BrandPayOcrWebManager
 
 class WebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private var url: String = ""
 
-    private val connectPayAuthWebManager = ConnectPayAuthWebManager(this).apply {
-        callback = object : ConnectPayAuthWebManager.Callback {
+    private val brandPayAuthWebManager = BrandPayAuthWebManager(
+        this
+    ).apply {
+        callback = object : BrandPayAuthWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
         }
     }
 
-    private val connectPayOcrWebManager = ConnectPayOcrWebManager(this).apply {
-        callback = object : ConnectPayOcrWebManager.Callback {
+    private val brandPayOcrWebManager = BrandPayOcrWebManager(this).apply {
+        callback = object : BrandPayOcrWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
@@ -57,18 +59,12 @@ class WebActivity : AppCompatActivity() {
 
             setWebContentsDebuggingEnabled(true)
 
-            addJavascriptInterface(
-                connectPayOcrWebManager.javaScriptInterface,
-                ConnectPayOcrWebManager.JAVASCRIPT_INTERFACE_NAME
-            )
-
-            addJavascriptInterface(
-                connectPayAuthWebManager.javaScriptInterface,
-                ConnectPayAuthWebManager.JAVASCRIPT_INTERFACE_NAME
-            )
+            brandPayOcrWebManager.addJavascriptInterface(this)
+            brandPayAuthWebManager.addJavascriptInterface(this)
         }
 
-        webView.loadUrl(url.takeIf { it.isNotBlank() } ?: "https://demo-dev.tosspayments.com/connectpay/test/webview")
+        webView.loadUrl(url.takeIf { it.isNotBlank() }
+            ?: "https://demo-dev.tosspayments.com/connectpay/test/webview")
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -83,12 +79,12 @@ class WebActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        connectPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
+        brandPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
 
         /**
          * 직접 Handling할 경우
-        if (requestCode == ConnectPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
-        data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
+        if (requestCode == BrandPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
+        data?.getStringExtra(BrandPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
         webView.loadUrl(resultScript)
         }
         }

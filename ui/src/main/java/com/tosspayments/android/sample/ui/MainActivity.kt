@@ -9,8 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import com.tosspayments.android.auth.utils.ConnectPayAuthManager
-import com.tosspayments.android.ocr.common.ConnectPayOcrManager
+import com.tosspayments.android.auth.utils.BrandPayAuthManager
+import com.tosspayments.android.ocr.common.BrandPayOcrManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var preference: SharedPreferences
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        preference = getSharedPreferences("keyConnectPaySamplePref", Context.MODE_PRIVATE)
+        preference = getSharedPreferences("keyBrandPaySamplePref", Context.MODE_PRIVATE)
 
         initViews()
     }
@@ -49,13 +49,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 ResultActivity.getIntent(
                     activity,
-                    successData = gson.toJson(ConnectPayAuthManager.getAppInfo(this@MainActivity))
+                    successData = gson.toJson(BrandPayAuthManager.getAppInfo(this@MainActivity))
                 )
             )
         }
 
         findViewById<Button>(R.id.verify_biometric_auth).setOnClickListener {
-            ConnectPayAuthManager.requestBioMetricAuth(activity,
+            BrandPayAuthManager.requestBioMetricAuth(activity,
                 "MODULUSMODULUSSE",
                 "EXPONENTEXPONENT",
                 { password ->
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 ResultActivity.getIntent(
                     activity,
-                    successData = ConnectPayAuthManager.getBiometricAuthMethods(activity)
+                    successData = BrandPayAuthManager.getBiometricAuthMethods(activity)
                 )
             )
         }
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.start_card_scan).setOnClickListener {
-            ConnectPayOcrManager.requestCardScan(
+            BrandPayOcrManager.requestCardScan(
                 activity,
                 "",
                 REQUEST_CODE_CARD_SCAN
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 REQUEST_CODE_PASSWORD -> {
                     val password = data?.getStringExtra("password")
 
-                    ConnectPayAuthManager.registerBiometricAuth(
+                    BrandPayAuthManager.registerBiometricAuth(
                         activity,
                         password,
                         {
