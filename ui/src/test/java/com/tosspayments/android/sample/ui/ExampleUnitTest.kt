@@ -1,4 +1,4 @@
-package com.tosspayments.android.sample
+package com.tosspayments.android.sample.ui
 
 import org.junit.Test
 

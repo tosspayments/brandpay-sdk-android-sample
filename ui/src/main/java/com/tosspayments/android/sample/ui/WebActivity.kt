@@ -1,4 +1,4 @@
-package com.tosspayments.android.utilsample
+package com.tosspayments.android.sample.ui
 
 import android.annotation.SuppressLint
 import android.content.Context

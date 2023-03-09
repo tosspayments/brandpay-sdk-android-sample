@@ -1,4 +1,4 @@
-package com.tosspayments.android.utilsample
+package com.tosspayments.android.sample.ui
 
 import android.content.Intent
 import android.os.Bundle
