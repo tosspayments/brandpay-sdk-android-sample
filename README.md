@@ -1,29 +1,30 @@
-## 커넥트페이 Android 인증 SDK 사용가이드
+## 브랜드페이 Android 인증 SDK 사용가이드
 
 ## 버전관리 변경사항 (2023년 3월 9일)
 - 서비스 명칭이 ConnectPay에서 BrandPay로 변경됨에 따라 관련된 클래스명들도 BrandPay_로 변경되었습니다.
 - BrandPayAuthWebManager, BrandPayOcrWebManager의 javascript interface 연동 방식이 아래와 같이 변경되었습니다.
-	```
-	brandPayOcrWebManager.addJavascriptInterface(WEB_VIEW)
-	brandPayAuthWebManager.addJavascriptInterface(WEB_VIEW)
-	```
+  ```
+  brandPayOcrWebManager.addJavascriptInterface(WEB_VIEW)
+  brandPayAuthWebManager.addJavascriptInterface(WEB_VIEW)
+  ```
 
 #### ver230309
+
 ### 라이브러리 추가
 
 - libs/ocr-0.2.0.aar 추가
 - OCR 관련 라이브러리 [OcrEngine, ocrview] 추가
     - settings.gradle
-        
+
         ```groovy
         include ':OcrEngine'
         include ':ocrview'
         ```
-        
+
 - asserts폴더에 OCR 라이선스 파일(fincube_license.flk) 추가
 
 - build.config(:app)
-    
+
     ```groovy
     dependencies {
         implementation fileTree(dir: 'libs', include: '*.aar')
@@ -37,16 +38,15 @@
         implementation "androidx.core:core-ktx:{version}"
     }
     ```
-    
 
-### Web ↔ App간 Message 처리를 위한 JavaScriptInterface 설정
+### Web ↔ App간 Message 처리를 위한 JavaScriptInterface 설정
 
 ```kotlin
-class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
+class BrandPayAuthSampleWebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
 
-    private val connectPayOcrWebManager = ConnectPayOcrWebManager(this).apply {
-        callback = object : ConnectPayOcrWebManager.Callback {
+    private val brandPayOcrWebManager = BrandPayOcrWebManager(this).apply {
+        callback = object : BrandPayOcrWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
@@ -67,19 +67,19 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
         webView.loadUrl(WEB_URL)
     }
-    
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // 유효한 Result인 경우 Callback.onPost로 리턴
-        connectPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
+        BrandPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
 
         /**
          * 직접 Handling할 경우
-        if (requestCode == ConnectPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
-            data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
-                webView.loadUrl(resultScript)
-            }
+        if (requestCode == BrandPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
+        data?.getStringExtra(BrandPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
+        webView.loadUrl(resultScript)
+        }
         }
          **/
     }
@@ -97,7 +97,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### OCR 스캐너 실행가능 여부
 
 - 호출 Message
-    
+
     ```
 	{
 	  name: 'isOCRAvailable',
@@ -107,7 +107,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 	  }
 	}
     ```
-    
+
 - Return
     - onSuccess : Boolean
         - true : 실행 가능
@@ -116,7 +116,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### OCR 스캐너 실행
 
 - 호출 Message
-    
+
     ```
 	{
 	  name: 'ocrScan',
@@ -127,10 +127,10 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 	  }
 	}
     ```
-    
+
 - Return
     - onSuccess : Json String
-    
+
     ```
 	{
 	  cardNo1 : 카드번호 첫번 째 4자리,
@@ -140,16 +140,18 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 	  expiryDate : 카드 유효기간 (MMYY)
 	}
     ```
-    
+
     - onError : Error 메세지
 
-## 커넥트페이 Android 인증 SDK 사용가이드
+## 브랜드페이 Android 인증 SDK 사용가이드
+
 #### ver230309
+
 ### 라이브러리 추가
 
 - libs/auth-0.2.0.aar 추가
 - build.config(:app)
-    
+
     ```groovy
     dependencies {
         implementation fileTree(dir: 'libs', include: '*.aar')
@@ -169,16 +171,15 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
         implementation "androidx.core:core-ktx:{version}"
     }
     ```
-    
 
-### Web ↔ App간 Message 처리를 위한 JavaScriptInterface bind
+### Web ↔ App간 Message 처리를 위한 JavaScriptInterface bind
 
 ```kotlin
-class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
+class BrandPayAuthSampleWebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
 
-		private val connectPayAuthWebManager = ConnectPayAuthWebManager(this).apply {
-        callback = object : ConnectPayAuthWebManager.Callback {
+    private val brandPayAuthWebManager = BrandPayAuthWebManager(this).apply {
+        callback = object : BrandPayAuthWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
@@ -187,7 +188,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_connectpay_auth_web_sample)
+        setContentView(R.layout.activity_brandpay_auth_web_sample)
 
         initViews()
     }
@@ -199,7 +200,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
                 javaScriptEnabled = true
                 domStorageEnabled = true
             }
-            
+
             brandPayAuthWebManager.addJavascriptInterface(this)
         }
 
@@ -215,7 +216,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### 지원 생체인증수단 조회
 
 - 호출 Message
-    
+
     ```
     {
       name: 'getBiometricAuthMethods',
@@ -225,7 +226,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
       }
     }
     ```
-    
+
 - Return
     - onSuccess : String 배열
         - 지문 [FINGERPRINT]
@@ -237,7 +238,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### 생체인증 비밀번호 저장 여부 조회
 
 - 호출 Message
-    
+
     ```
     {
       name: 'hasBiometricAuth',
@@ -246,7 +247,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
       }
     }
     ```
-    
+
 - Return
     - onSuccess : Boolean
         - true : 설정한 비밀번호 존재
@@ -255,7 +256,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### 생체인증 비밀번호 등록
 
 - 호출 Message
-    
+
     ```
     {
       name: 'registerBiometricAuth',
@@ -266,7 +267,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
       }
     }
     ```
-    
+
 - Return
     - onSuccess : Boolean
         - true : 등록 완료
@@ -276,7 +277,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### 생체인증 요청
 
 - 호출 Message
-    
+
     ```
     {
       name: 'verifyBiometricAuth',
@@ -286,11 +287,11 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
       }
     }
     ```
-    
+
 - Return
     - onSuccess : 기존에 등록된 비밀번호
     - onError : Error 메세지
 
 ### WebView 테스트
 
-- 샘플 App 설치 후, connectpaysample://web?url=WEB_PAGE_URL scheme 실행
+- 샘플 App 설치 후, brandpaysample://web?url=WEB_PAGE_URL scheme 실행
