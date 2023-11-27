@@ -42,11 +42,11 @@
 ### Web ↔ App간 Message 처리를 위한 JavaScriptInterface 설정
 
 ```kotlin
-class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
+class BrandPayAuthSampleWebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
 
-    private val connectPayOcrWebManager = ConnectPayOcrWebManager(this).apply {
-        callback = object : ConnectPayOcrWebManager.Callback {
+    private val brandPayOcrWebManager = BrandPayOcrWebManager(this).apply {
+        callback = object : BrandPayOcrWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
@@ -72,12 +72,12 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // 유효한 Result인 경우 Callback.onPost로 리턴
-        connectPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
+        BrandPayOcrWebManager.handleActivityResult(requestCode, resultCode, data)
 
         /**
          * 직접 Handling할 경우
-        if (requestCode == ConnectPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
-            data?.getStringExtra(ConnectPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
+        if (requestCode == BrandPayOcrWebManager.REQUEST_CODE_CARD_SCAN) {
+            data?.getStringExtra(BrandPayOcrWebManager.EXTRA_CARD_SCAN_RESULT_SCRIPT)?.let { resultScript ->
                 webView.loadUrl(resultScript)
             }
         }
@@ -174,11 +174,11 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 ### Web ↔ App간 Message 처리를 위한 JavaScriptInterface bind
 
 ```kotlin
-class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
+class BrandPayAuthSampleWebActivity : AppCompatActivity() {
     private lateinit var webView: WebView
 
-		private val connectPayAuthWebManager = ConnectPayAuthWebManager(this).apply {
-        callback = object : ConnectPayAuthWebManager.Callback {
+    private val brandPayAuthWebManager = BrandPayAuthWebManager(this).apply {
+        callback = object : BrandPayAuthWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
@@ -187,7 +187,7 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_connectpay_auth_web_sample)
+        setContentView(R.layout.activity_brandpay_auth_web_sample)
 
         initViews()
     }
@@ -293,4 +293,4 @@ class ConnectPayAuthSampleWebActivity : AppCompatActivity() {
 
 ### WebView 테스트
 
-- 샘플 App 설치 후, connectpaysample://web?url=WEB_PAGE_URL scheme 실행
+- 샘플 App 설치 후, brandpaysample://web?url=WEB_PAGE_URL scheme 실행
