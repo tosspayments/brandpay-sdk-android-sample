@@ -1,14 +1,18 @@
-## 브랜드페이 Android 인증 SDK 사용가이드
+# 브랜드페이 Android 인증 SDK 사용가이드
 
-## 버전관리 변경사항 (2023년 3월 9일)
-- 서비스 명칭이 ConnectPay에서 BrandPay로 변경됨에 따라 관련된 클래스명들도 BrandPay_로 변경되었습니다.
+#### 버전관리 변경사항 (2024년 2월 5일)
+- 브랜드페이 생체인증 연동 시 생성자에 넣은 activity의 상태가 올바르지 않을 경우 무한 로딩이 발생하는 오류를 해결하였습니다.
+- 관련 이슈(무한로딩)가 발생하거나, 오류 토스트가 발생할 경우 문의 바랍니다.
+
+#### 버전관리 변경사항 (2023년 3월 9일)
+- 서비스 명칭이 ConnectPay에서 BrandPay로 변경됨에 따라 관련된 클래스명들도 BrandPay로 변경되었습니다.
 - BrandPayAuthWebManager, BrandPayOcrWebManager의 javascript interface 연동 방식이 아래와 같이 변경되었습니다.
   ```
   brandPayOcrWebManager.addJavascriptInterface(WEB_VIEW)
   brandPayAuthWebManager.addJavascriptInterface(WEB_VIEW)
   ```
 
-#### ver230309
+## OCR 연동 가이드 ver230309
 
 ### 라이브러리 추가
 
@@ -143,13 +147,11 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 
     - onError : Error 메세지
 
-## 브랜드페이 Android 인증 SDK 사용가이드
-
-#### ver230309
+## 브랜드페이 생체인증 연동 가이드 ver230309
 
 ### 라이브러리 추가
 
-- libs/auth-0.2.0.aar 추가
+- libs/auth-0.2.1.aar 추가
 - build.config(:app)
 
     ```groovy
@@ -291,7 +293,3 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 - Return
     - onSuccess : 기존에 등록된 비밀번호
     - onError : Error 메세지
-
-### WebView 테스트
-
-- 샘플 App 설치 후, brandpaysample://web?url=WEB_PAGE_URL scheme 실행
