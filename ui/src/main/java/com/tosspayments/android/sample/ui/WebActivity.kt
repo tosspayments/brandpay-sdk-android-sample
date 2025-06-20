@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebView.setWebContentsDebuggingEnabled
 import androidx.appcompat.app.AppCompatActivity
 import com.tosspayments.android.auth.interfaces.BrandPayAuthWebManager
+import com.tosspayments.android.auth.model.BrandpayBiometricAuthException
 import com.tosspayments.android.ocr.interfaces.BrandPayOcrWebManager
 
 class WebActivity : AppCompatActivity() {
@@ -20,6 +22,13 @@ class WebActivity : AppCompatActivity() {
         callback = object : BrandPayAuthWebManager.Callback {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
+            }
+
+            override fun onErrorOccurred(exception: BrandpayBiometricAuthException) {
+                super.onErrorOccurred(exception)
+                Log.d("onErrorOccurred", exception.message.toString())
+                Log.d("onErrorOccurred", exception.errorCode.toString())
+                Log.d("onErrorOccurred", exception.cause?.message.toString())
             }
         }
     }
@@ -64,7 +73,7 @@ class WebActivity : AppCompatActivity() {
         }
 
         webView.loadUrl(url.takeIf { it.isNotBlank() }
-            ?: "https://demo-dev.tosspayments.com/connectpay/test/webview")
+            ?: "https://testbox.tosspayments.com/brandpay/test")
     }
 
     override fun onNewIntent(intent: Intent?) {

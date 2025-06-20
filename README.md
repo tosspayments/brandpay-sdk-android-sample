@@ -1,5 +1,9 @@
 # 브랜드페이 Android 인증 SDK 사용가이드
 
+#### 버전관리 변경사항 (2025년 6월 20일)
+- 생체인증 과정에서 내부 에러가 발생한 경우를 콜백으로 받아볼 수 있는 기능을 추가합니다.
+- 신규 콜백 연동은 아래 가이드를 참조하세요.
+
 #### 버전관리 변경사항 (2024년 11월 27일)
 - 일부 생체인증 오류 상황에서 무한 로딩이 지속되는 문제를 수정하였습니다.
 - 생체인증 에러 발생 시 표시되는 에러 문구를 명확하게 수정하였습니다.
@@ -155,11 +159,11 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 
     - onError : Error 메세지
 
-## 브랜드페이 생체인증 연동 가이드 ver230309
+## 브랜드페이 생체인증 연동 가이드 ver250620
 
 ### 라이브러리 추가
 
-- libs/auth-0.2.1.aar 추가
+- libs/auth-0.3.0.aar 추가
 - build.config(:app)
 
     ```groovy
@@ -193,6 +197,12 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
             override fun onPostScript(script: String) {
                 webView.loadUrl(script)
             }
+            override fun onErrorOccurred(exception: BrandpayBiometricAuthException) {
+                super.onErrorOccurred(exception)
+                Log.d("onErrorOccurred", exception.message.toString())
+                Log.d("onErrorOccurred", exception.errorCode.toString())
+                Log.d("onErrorOccurred", exception.cause?.message.toString())
+            }
         }
     }
 
@@ -219,85 +229,30 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 }
 ```
 
-### Web에서 Message 호출하기
+### onErrorOccurred 에서 받을 수 있는 에러 클래스
 
-- `window.ConnectPayAuth.postMessage` 호출
-
-### 지원 생체인증수단 조회
-
-- 호출 Message
-
-    ```
-    {
-      name: 'getBiometricAuthMethods',
-      params: {
-        onSuccess: 성공시 호출할 메서드명,
-        onError: 에러 발생시 호출할 메서드명
-      }
+```kotlin
+/**
+ * 브랜드페이 생체인증 SDK 내부에서 발생한 에러입니다.
+ *
+ * @param errorCode 에러 종류
+ * @param traceId 에러 추적을 위한 고유값
+ * @param message 에러 메시지
+ * @param cause 원본 예외
+ */
+class BrandpayBiometricAuthException(
+    val errorCode: AuthErrorCode,
+    val traceId: String? = null,
+    message: String,
+    cause: Throwable? = null
+) : Exception(message, cause) {
+    enum class AuthErrorCode {
+        INVALID_CONTEXT,
+        SECURE_STORAGE_INIT_FAILED,
+        SECURE_STORAGE_IO_FAILED,
+        CRYPTO_OPERATION_FAILED,
+        BIOMETRIC_API_FAILED,
+        CALLBACK_NOT_REGISTERED
     }
-    ```
-
-- Return
-    - onSuccess : String 배열
-        - 지문 [FINGERPRINT]
-        - 얼굴인식 [FACE]
-        - 모두 지원 [FINGERPRINT, FACE]
-        - 모두 지원하지 않는 경우는 빈 배열
-    - onError : Error 메세지
-
-### 생체인증 비밀번호 저장 여부 조회
-
-- 호출 Message
-
-    ```
-    {
-      name: 'hasBiometricAuth',
-      params: {
-        onSuccess: 성공시 호출할 메서드명
-      }
-    }
-    ```
-
-- Return
-    - onSuccess : Boolean
-        - true : 설정한 비밀번호 존재
-        - false : 설정한 비밀번호 부재
-
-### 생체인증 비밀번호 등록
-
-- 호출 Message
-
-    ```
-    {
-      name: 'registerBiometricAuth',
-      params: {
-        onSuccess: 성공시 호출할 메서드명,
-        onError: 에러 발생시 호출할 메서드명,
-        password : 등록할 비밀번호
-      }
-    }
-    ```
-
-- Return
-    - onSuccess : Boolean
-        - true : 등록 완료
-        - false : 등록 실패
-    - onError : Error 메세지
-
-### 생체인증 요청
-
-- 호출 Message
-
-    ```
-    {
-      name: 'verifyBiometricAuth',
-      params: {
-        onSuccess: 성공시 호출할 메서드명,
-        onError: 에러 발생시 호출할 메서드명
-      }
-    }
-    ```
-
-- Return
-    - onSuccess : 기존에 등록된 비밀번호
-    - onError : Error 메세지
+}
+```
