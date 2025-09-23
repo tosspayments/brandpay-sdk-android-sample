@@ -26,9 +26,12 @@
 
 ## OCR 연동 가이드 ver230309
 
+#### 버전 변경사항 (2025년 9월 23일)
+- 16KB 페이지 크기를 지원하도록 수정 
+
 ### 라이브러리 추가
 
-- libs/ocr-0.2.0.aar 추가
+- libs/ocr-0.3.0.aar 추가
 - OCR 관련 라이브러리 [OcrEngine, ocrview] 추가
     - settings.gradle
 
