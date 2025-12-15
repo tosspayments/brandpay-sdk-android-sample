@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.tosspayments.android.sample"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "0.2.0"

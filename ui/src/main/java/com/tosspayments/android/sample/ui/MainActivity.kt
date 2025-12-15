@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             val webUrl = preference.getString(
                 KEY_WEB_URL,
                 null
-            ) ?: "https://testbox.tosspayments.com/brandpay/test"
+            ) ?: "https://testbox-dev.tosspayments.com/brandpay/test"
 
             setText(webUrl)
         }
