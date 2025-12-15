@@ -36,9 +36,8 @@
             android:name=".WebActivity"
             android:exported="true"
             android:label=""
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            tools:ignore="LockedOrientationActivity">
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

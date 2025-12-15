@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -212,5 +213,11 @@ class WebActivity : AppCompatActivity() {
         }
         }
          **/
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Configuration 변경 시 아무 작업도 하지 않음으로써 WebView 인스턴스 유지
+        Log.d("WebActivity", "Configuration changed: ${newConfig.orientation}")
     }
 }
