@@ -1,5 +1,8 @@
 # 브랜드페이 Android 인증 SDK 사용가이드
 
+#### 버전관리 변경사항 (2026년 6월 9일)
+- ⚠️ OCR SDK 연동은 deprecated 되었습니다. Web OCR 사용을 권장합니다.
+
 #### 버전관리 변경사항 (2025년 6월 20일)
 - 생체인증 과정에서 내부 에러가 발생한 경우를 콜백으로 받아볼 수 있는 기능을 추가합니다.
 - 신규 콜백 연동은 아래 가이드를 참조하세요.
@@ -24,7 +27,113 @@
     brandPayAuthWebManager.addJavascriptInterface(WEB_VIEW)
     ```
 
-## OCR 연동 가이드 ver230309
+## 브랜드페이 생체인증 연동 가이드 ver250620
+
+### 라이브러리 추가
+
+- libs/auth-0.3.0.aar 추가
+- build.config(:app)
+
+    ```groovy
+    dependencies {
+        implementation fileTree(dir: 'libs', include: '*.aar')
+	
+        // 2.2.0 이상 권장
+        implementation "androidx.lifecycle:lifecycle-runtime-ktx:{version}"
+    
+        // 2.6.0 이상 권장
+        implementation 'com.google.code.gson:gson:{version}'
+	
+        // 1.1.0 이상 권장
+        implementation "androidx.biometric:biometric:{version}"
+	
+        implementation "androidx.security:security-crypto:1.1.0-alpha03"
+	
+        implementation "androidx.appcompat:appcompat:{version}"
+        implementation "androidx.core:core-ktx:{version}"
+    }
+    ```
+
+### Web ↔ App간 Message 처리를 위한 JavaScriptInterface bind
+
+```kotlin
+class BrandPayAuthSampleWebActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
+
+    private val brandPayAuthWebManager = BrandPayAuthWebManager(this).apply {
+        callback = object : BrandPayAuthWebManager.Callback {
+            override fun onPostScript(script: String) {
+                webView.loadUrl(script)
+            }
+            override fun onErrorOccurred(exception: BrandpayBiometricAuthException) {
+                super.onErrorOccurred(exception)
+                Log.d("onErrorOccurred", exception.message.toString())
+                Log.d("onErrorOccurred", exception.errorCode.toString())
+                Log.d("onErrorOccurred", exception.cause?.message.toString())
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_brandpay_auth_web_sample)
+
+        initViews()
+    }
+
+    @SuppressLint("JavascriptInterface", "SetJavaScriptEnabled")
+    private fun initViews() {
+        webView = findViewById<WebView>(R.id.web_view).apply {
+            settings.run {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+            }
+
+            brandPayAuthWebManager.addJavascriptInterface(this)
+        }
+
+        webView.loadUrl(WEB_URL)
+    }
+}
+```
+
+### onErrorOccurred 에서 받을 수 있는 에러 클래스
+
+```kotlin
+/**
+ * 브랜드페이 생체인증 SDK 내부에서 발생한 에러입니다.
+ *
+ * @param errorCode 에러 종류
+ * @param traceId 에러 추적을 위한 고유값
+ * @param message 에러 메시지
+ * @param cause 원본 예외
+ */
+class BrandpayBiometricAuthException(
+    val errorCode: AuthErrorCode,
+    val traceId: String? = null,
+    message: String,
+    cause: Throwable? = null
+) : Exception(message, cause) {
+    enum class AuthErrorCode {
+        INVALID_CONTEXT,
+        SECURE_STORAGE_INIT_FAILED,
+        SECURE_STORAGE_IO_FAILED,
+        CRYPTO_OPERATION_FAILED,
+        BIOMETRIC_API_FAILED,
+        CALLBACK_NOT_REGISTERED
+    }
+}
+```
+
+## ⚠️ [Deprecated] OCR 연동 가이드 ver230309
+
+> ### ⚠️ Deprecated
+> **이 SDK 기반 OCR 연동은 더 이상 권장되지 않습니다.**  
+> Web OCR 도입으로 신규 연동 시에는 Web OCR을 사용해주세요.  
+> 관련 문의는 [디스코드](https://techchat.tosspayments.com/)로 부탁드립니다.
+
+<details>
+<summary>기존 연동 가이드 보기 (유지보수 목적)</summary>
 
 #### 버전 변경사항 (2025년 9월 26일)
 - 구버전 라이센스 키 호환 이슈 수정
@@ -165,100 +274,4 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 
     - onError : Error 메세지
 
-## 브랜드페이 생체인증 연동 가이드 ver250620
-
-### 라이브러리 추가
-
-- libs/auth-0.3.0.aar 추가
-- build.config(:app)
-
-    ```groovy
-    dependencies {
-        implementation fileTree(dir: 'libs', include: '*.aar')
-	
-        // 2.2.0 이상 권장
-        implementation "androidx.lifecycle:lifecycle-runtime-ktx:{version}"
-    
-        // 2.6.0 이상 권장
-        implementation 'com.google.code.gson:gson:{version}'
-	
-        // 1.1.0 이상 권장
-        implementation "androidx.biometric:biometric:{version}"
-	
-        implementation "androidx.security:security-crypto:1.1.0-alpha03"
-	
-        implementation "androidx.appcompat:appcompat:{version}"
-        implementation "androidx.core:core-ktx:{version}"
-    }
-    ```
-
-### Web ↔ App간 Message 처리를 위한 JavaScriptInterface bind
-
-```kotlin
-class BrandPayAuthSampleWebActivity : AppCompatActivity() {
-    private lateinit var webView: WebView
-
-    private val brandPayAuthWebManager = BrandPayAuthWebManager(this).apply {
-        callback = object : BrandPayAuthWebManager.Callback {
-            override fun onPostScript(script: String) {
-                webView.loadUrl(script)
-            }
-            override fun onErrorOccurred(exception: BrandpayBiometricAuthException) {
-                super.onErrorOccurred(exception)
-                Log.d("onErrorOccurred", exception.message.toString())
-                Log.d("onErrorOccurred", exception.errorCode.toString())
-                Log.d("onErrorOccurred", exception.cause?.message.toString())
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_brandpay_auth_web_sample)
-
-        initViews()
-    }
-
-    @SuppressLint("JavascriptInterface", "SetJavaScriptEnabled")
-    private fun initViews() {
-        webView = findViewById<WebView>(R.id.web_view).apply {
-            settings.run {
-                javaScriptEnabled = true
-                domStorageEnabled = true
-            }
-
-            brandPayAuthWebManager.addJavascriptInterface(this)
-        }
-
-        webView.loadUrl(WEB_URL)
-    }
-}
-```
-
-### onErrorOccurred 에서 받을 수 있는 에러 클래스
-
-```kotlin
-/**
- * 브랜드페이 생체인증 SDK 내부에서 발생한 에러입니다.
- *
- * @param errorCode 에러 종류
- * @param traceId 에러 추적을 위한 고유값
- * @param message 에러 메시지
- * @param cause 원본 예외
- */
-class BrandpayBiometricAuthException(
-    val errorCode: AuthErrorCode,
-    val traceId: String? = null,
-    message: String,
-    cause: Throwable? = null
-) : Exception(message, cause) {
-    enum class AuthErrorCode {
-        INVALID_CONTEXT,
-        SECURE_STORAGE_INIT_FAILED,
-        SECURE_STORAGE_IO_FAILED,
-        CRYPTO_OPERATION_FAILED,
-        BIOMETRIC_API_FAILED,
-        CALLBACK_NOT_REGISTERED
-    }
-}
-```
+</details>
