@@ -114,8 +114,10 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 private val allowedHosts = setOf("shop.example.com")
 
 private fun isAllowedUrl(url: String): Boolean {
+    // 백슬래시가 든 주소는 Android 버전에 따라 Uri 와 WebView 가 host 를 다르게 읽을 수 있어 거부합니다.
+    if ('\\' in url) return false
     val uri = Uri.parse(url)
-    return uri.scheme == "https" && uri.host?.lowercase() in allowedHosts
+    return uri.scheme?.lowercase() == "https" && uri.host?.lowercase() in allowedHosts
 }
 
 // 외부에서 받은 URL 은 확인을 통과했을 때만 엽니다.
@@ -123,6 +125,8 @@ if (isAllowedUrl(receivedUrl)) {
     webView.loadUrl(receivedUrl)
 }
 ```
+
+이 확인은 WebView 에 처음 여는 주소에만 적용됩니다. 페이지가 열린 뒤 이동한 페이지가 브리지를 부를 수 있는지는 SDK 0.4.0 부터 허용 출처로 제한합니다.
 
 ### 백업에서 생체 인증 저장소 빼기
 
