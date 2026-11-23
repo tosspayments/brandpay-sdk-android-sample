@@ -24,14 +24,6 @@
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name=".InputPasswordActivity"
-            android:label=""
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="LockedOrientationActivity" />
-
-        <activity
             android:name=".WebActivity"
             android:exported="false"
             android:label=""
