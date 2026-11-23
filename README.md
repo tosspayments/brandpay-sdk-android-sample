@@ -100,6 +100,25 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
 }
 ```
 
+### 필수: 브리지를 붙인 WebView 에 여는 주소 확인
+
+브리지를 붙인 WebView 에는 가맹점이 정한 결제 페이지 주소(위 예시의 `WEB_URL`)만 엽니다. 딥링크, 푸시, Intent extra 처럼 외부에서 받은 URL 은 scheme 이 `https` 이고 host 가 허용 목록에 있는지 확인한 뒤 엽니다.
+
+```kotlin
+// 가맹점 결제 페이지의 host 만 둡니다.
+private val allowedHosts = setOf("shop.example.com")
+
+private fun isAllowedUrl(url: String): Boolean {
+    val uri = Uri.parse(url)
+    return uri.scheme == "https" && uri.host?.lowercase() in allowedHosts
+}
+
+// 외부에서 받은 URL 은 확인을 통과했을 때만 엽니다.
+if (isAllowedUrl(receivedUrl)) {
+    webView.loadUrl(receivedUrl)
+}
+```
+
 ### onErrorOccurred 에서 받을 수 있는 에러 클래스
 
 ```kotlin
