@@ -6,8 +6,6 @@
    See https://developer.android.com/about/versions/12/backup-restore
 -->
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <!-- 생체 인증 SDK 저장소는 기기 키로 암호화되어 다른 기기에서 풀 수 없으므로 백업에서 뺀다. -->
+    <exclude domain="sharedpref" path="tossBrandPayUtilPreference.xml" />
 </full-backup-content>

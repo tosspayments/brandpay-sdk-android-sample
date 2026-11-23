@@ -4,16 +4,11 @@
    for details.
 -->
 <data-extraction-rules>
+    <!-- 생체 인증 SDK 저장소는 기기 키로 암호화되어 다른 기기에서 풀 수 없으므로 백업과 기기 간 이전에서 뺀다. -->
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <exclude domain="sharedpref" path="tossBrandPayUtilPreference.xml" />
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <exclude domain="sharedpref" path="tossBrandPayUtilPreference.xml" />
     </device-transfer>
-    -->
 </data-extraction-rules>

@@ -124,6 +124,35 @@ if (isAllowedUrl(receivedUrl)) {
 }
 ```
 
+### 백업에서 생체 인증 저장소 빼기
+
+SDK 는 생체 인증 등록 정보를 SharedPreferences 파일 `tossBrandPayUtilPreference.xml` 에 둡니다. 이 파일은 기기의 Android Keystore 키로 암호화되어 다른 기기에서 풀 수 없으므로 백업에서 뺍니다. 복원한 기기에서는 생체 재등록이 필요할 수 있습니다.
+
+`android:allowBackup` 을 끄지 않고 이 파일만 빼면 앱의 다른 데이터는 그대로 백업됩니다. Android 11(API 30) 이하는 `android:fullBackupContent` 를, Android 12(API 31) 이상은 `android:dataExtractionRules` 를 읽으니 두 규칙에 모두 적습니다. `dataExtractionRules` 를 지정하면 targetSdk 가 31 미만이어도 Android 12 이상 기기에서는 이 규칙을 따릅니다.
+
+```xml
+<!-- AndroidManifest.xml -->
+<application
+    android:fullBackupContent="@xml/backup_rules"
+    android:dataExtractionRules="@xml/data_extraction_rules">
+</application>
+
+<!-- res/xml/backup_rules.xml (Android 11 이하) -->
+<full-backup-content>
+    <exclude domain="sharedpref" path="tossBrandPayUtilPreference.xml" />
+</full-backup-content>
+
+<!-- res/xml/data_extraction_rules.xml (Android 12 이상) -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="sharedpref" path="tossBrandPayUtilPreference.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="sharedpref" path="tossBrandPayUtilPreference.xml" />
+    </device-transfer>
+</data-extraction-rules>
+```
+
 ### onErrorOccurred 에서 받을 수 있는 에러 클래스
 
 ```kotlin
