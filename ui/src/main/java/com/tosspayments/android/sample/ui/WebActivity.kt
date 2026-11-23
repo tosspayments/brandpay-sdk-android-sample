@@ -3,6 +3,7 @@ package com.tosspayments.android.sample.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
@@ -66,7 +67,10 @@ class WebActivity : AppCompatActivity() {
                 domStorageEnabled = true
             }
 
-            setWebContentsDebuggingEnabled(true)
+            // 원격 디버깅은 debuggable 앱에서만 켠다. ui 는 library 모듈이라 앱의 FLAG_DEBUGGABLE 을 본다.
+            if ((applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+                setWebContentsDebuggingEnabled(true)
+            }
 
             brandPayOcrWebManager.addJavascriptInterface(this)
             brandPayAuthWebManager.addJavascriptInterface(this)

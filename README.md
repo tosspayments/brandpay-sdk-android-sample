@@ -92,6 +92,11 @@ class BrandPayAuthSampleWebActivity : AppCompatActivity() {
                 domStorageEnabled = true
             }
 
+            // 원격 디버깅은 debuggable 빌드에서만 켭니다.
+            if ((applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+                WebView.setWebContentsDebuggingEnabled(true)
+            }
+
             brandPayAuthWebManager.addJavascriptInterface(this)
         }
 
