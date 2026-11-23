@@ -159,6 +159,22 @@ class BrandpayBiometricAuthException(
 > Web OCR 도입으로 신규 연동 시에는 Web OCR을 사용해주세요.  
 > 관련 문의는 [디스코드](https://techchat.tosspayments.com/)로 부탁드립니다.
 
+### OCR 라이선스 파일
+
+OCR 라이선스 파일(`.flk`)은 이 저장소에 없습니다. 라이선스는 가맹점마다 발급받으니 담당 매니저나 [토스페이먼츠 개발자 커뮤니티](https://techchat.tosspayments.com/)로 문의합니다.
+
+- 받은 파일은 `ui/src/main/assets/fincube_license.flk` 로 넣습니다. 라이선스 파일은 저장소에 올리지 않으며, 이 샘플의 `.gitignore` 는 `*.flk` 를 뺍니다.
+- 파일이 없으면 샘플의 OCR 카드 스캔은 동작하지 않습니다. 생체 인증은 그대로 동작합니다.
+
+### OCR SDK 에서 Web OCR 로 옮기기
+
+OCR SDK 는 더 이상 권장하지 않습니다. 새로 연동한다면 Web OCR 을 씁니다. 결제 화면의 카드 등록에서 아래가 모두 맞을 때 Web OCR 이 뜹니다.
+
+- 앱이 OCR 브리지(`window.ConnectPayOcr`)를 붙이지 않았습니다. 브리지가 있으면 결제 화면은 앱 카드 스캔을 먼저 씁니다.
+- 가맹점 페이지가 JS SDK 를 띄울 때 `features.cardOCR.active` 를 `true` 로 넘겼습니다.
+
+Web OCR 은 라이선스 계약이 필요한 기능이라 가맹점이 직접 켤 수 없습니다. 담당 매니저나 [토스페이먼츠 개발자 커뮤니티](https://techchat.tosspayments.com/)로 문의합니다.
+
 <details>
 <summary>기존 연동 가이드 보기 (유지보수 목적)</summary>
 
@@ -179,7 +195,7 @@ class BrandpayBiometricAuthException(
         include ':ocrview'
         ```
 
-- asserts폴더에 OCR 라이선스 파일(fincube_license.flk) 추가
+- assets 폴더에 OCR 라이선스 파일(fincube_license.flk) 추가. 파일은 저장소에 없으니 [OCR 라이선스 파일](#ocr-라이선스-파일) 을 봅니다.
 
 - build.config(:app)
 
