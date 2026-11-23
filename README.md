@@ -190,7 +190,7 @@ class BrandpayBiometricAuthException(
 > ### ⚠️ Deprecated
 > **이 SDK 기반 OCR 연동은 더 이상 권장되지 않습니다.**  
 > Web OCR 도입으로 신규 연동 시에는 Web OCR을 사용해주세요.  
-> 관련 문의는 [디스코드](https://techchat.tosspayments.com/)로 부탁드립니다.
+> 관련 문의는 [디스코드](https://developers.tosspayments.com/go/techchat)로 부탁드립니다.
 
 ### OCR 라이선스 파일
 
