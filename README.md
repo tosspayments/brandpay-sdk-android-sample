@@ -220,12 +220,11 @@ Web OCR 은 라이선스 계약이 필요한 기능이라 가맹점이 직접 �
 ### 라이브러리 추가
 
 - libs/ocr-0.3.1.aar 추가 
-- OCR 관련 라이브러리 [OcrEngine, ocrview] 추가
+- OCR 관련 라이브러리 [OcrEngine] 추가
     - settings.gradle
 
         ```groovy
         include ':OcrEngine'
-        include ':ocrview'
         ```
 
 - assets 폴더에 OCR 라이선스 파일(fincube_license.flk) 추가. 파일은 저장소에 없으니 [OCR 라이선스 파일](#ocr-라이선스-파일) 을 봅니다.
