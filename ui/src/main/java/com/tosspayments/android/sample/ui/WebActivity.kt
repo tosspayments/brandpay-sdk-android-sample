@@ -44,6 +44,8 @@ class WebActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_WEB_URL = "url"
+        // 샘플이 여는 결제 페이지(release 에서 고정)의 출처
+        private val ALLOWED_ORIGINS = setOf("https://testbox.tosspayments.com")
 
         fun getIntent(context: Context, webUrl: String): Intent {
             return Intent(context, WebActivity::class.java)
@@ -72,8 +74,8 @@ class WebActivity : AppCompatActivity() {
                 setWebContentsDebuggingEnabled(true)
             }
 
-            brandPayOcrWebManager.addJavascriptInterface(this)
-            brandPayAuthWebManager.addJavascriptInterface(this)
+            brandPayOcrWebManager.addJavascriptInterface(this, ALLOWED_ORIGINS)
+            brandPayAuthWebManager.addJavascriptInterface(this, ALLOWED_ORIGINS)
         }
 
         webView.loadUrl(url.takeIf { it.isNotBlank() }
