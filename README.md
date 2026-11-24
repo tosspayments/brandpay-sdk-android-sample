@@ -175,7 +175,7 @@ webView.loadUrl("https://shop.example.com/order")
 - androidx.webkit 이 없거나 WebView 가 지원하지 않으면 예전처럼 출처를 확인하지 않고 붙이고, logcat 에 안내를 남깁니다.
 - 같은 WebView 에 옛 메서드와 새 메서드를 함께 부르거나 같은 메서드를 다시 부르면 마지막 호출이 이깁니다.
 
-이 샘플은 허용 출처를 `https://testbox.tosspayments.com` 으로 둡니다. debug 빌드의 URL 입력칸으로 다른 출처의 페이지를 열면 브리지가 응답하지 않습니다.
+이 샘플은 결제 페이지 주소를 `https://merchant.example.com/brandpay`, 허용 출처를 `https://merchant.example.com` 자리 표시로 둡니다. 자기 결제 페이지 주소와 출처로 바꿔 씁니다(`MainActivity` 의 `PAYMENT_PAGE_URL`, `WebActivity` 의 `ALLOWED_ORIGINS` 와 기본 주소). debug 빌드의 URL 입력칸으로 다른 출처의 페이지를 열면 브리지가 응답하지 않습니다.
 
 ### 필수: 브리지를 붙인 WebView 에 여는 주소 확인
 

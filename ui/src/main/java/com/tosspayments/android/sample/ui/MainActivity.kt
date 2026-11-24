@@ -11,7 +11,8 @@ import com.tosspayments.android.auth.utils.BrandPayAuthManager
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        private const val PAYMENT_PAGE_URL = "https://testbox.tosspayments.com/brandpay/test"
+        // 자리 표시 주소다. 자기 결제 페이지 주소로 바꾼다.
+        private const val PAYMENT_PAGE_URL = "https://merchant.example.com/brandpay"
     }
 
     private val gson = Gson()
