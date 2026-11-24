@@ -3,6 +3,7 @@ package com.tosspayments.android.sample.ui
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
@@ -43,6 +44,8 @@ class WebActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_WEB_URL = "url"
+        // 샘플이 여는 결제 페이지(release 에서 고정)의 출처. 자리 표시 출처라 자기 결제 페이지 출처로 바꾼다.
+        private val ALLOWED_ORIGINS = setOf("https://merchant.example.com")
 
         fun getIntent(context: Context, webUrl: String): Intent {
             return Intent(context, WebActivity::class.java)
@@ -66,14 +69,18 @@ class WebActivity : AppCompatActivity() {
                 domStorageEnabled = true
             }
 
-            setWebContentsDebuggingEnabled(true)
+            // 원격 디버깅은 debuggable 앱에서만 켠다. ui 는 library 모듈이라 앱의 FLAG_DEBUGGABLE 을 본다.
+            if ((applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+                setWebContentsDebuggingEnabled(true)
+            }
 
-            brandPayOcrWebManager.addJavascriptInterface(this)
-            brandPayAuthWebManager.addJavascriptInterface(this)
+            brandPayOcrWebManager.addJavascriptInterface(this, ALLOWED_ORIGINS)
+            brandPayAuthWebManager.addJavascriptInterface(this, ALLOWED_ORIGINS)
         }
 
+        // 기본 주소는 자리 표시 주소다. 자기 결제 페이지 주소로 바꾼다.
         webView.loadUrl(url.takeIf { it.isNotBlank() }
-            ?: "https://testbox.tosspayments.com/brandpay/test")
+            ?: "https://merchant.example.com/brandpay")
     }
 
     override fun onNewIntent(intent: Intent?) {

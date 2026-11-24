@@ -83,3 +83,6 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 .idea
+
+# OCR license files
+*.flk
